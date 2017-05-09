@@ -184,9 +184,13 @@ class JDAlbumDetailController: UICollectionViewController {
 //        browser.endImageView = nil
         self.present(browser, animated: true, completion: nil)
 
-        browser.endPageIndexClosure = {[weak self] (index: Int) in
-            let index = IndexPath(item: index, section: 0)
-            self?.collectionView?.scrollToItem(at: index, at: .centeredVertically, animated: true)
+        browser.endPageIndexClosure = {[weak self] (index1: Int) in
+            let index = IndexPath(item: index1, section: 0)
+            
+            if  index1 <= ((self?.assertsArray.count ?? 0) - 1){
+                self?.collectionView?.scrollToItem(at: index, at: .centeredVertically, animated: true)
+            }
+            
             let cell1 = collectionView.cellForItem(at: index) as! JDCollectionViewCell
             browser.endImageView = cell1.img
         }
