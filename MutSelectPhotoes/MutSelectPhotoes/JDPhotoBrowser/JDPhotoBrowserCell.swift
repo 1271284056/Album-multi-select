@@ -13,12 +13,10 @@ import SDWebImage
 //实际图片大小 动态变化
 var imageRect = CGRect(x: 0 , y:(kJDScreenHeight - kJDScreenWidth)/2, width: kJDScreenWidth  , height:  kJDScreenWidth )
 
-//默认大小
-var baseImageRect = CGRect(x: 0 , y:(kJDScreenHeight - kJDScreenWidth*1.3)/2, width: kJDScreenWidth  , height:  kJDScreenWidth*1.3)
-
 
 class JDPhotoBrowserCell: UICollectionViewCell,UIGestureRecognizerDelegate ,UIScrollViewDelegate{
     
+    var isDissmiss: Bool = false
     var totalScale : CGFloat = 1.0
     var maxScale : CGFloat = 3.0
     var minScale : CGFloat = 1
@@ -32,13 +30,30 @@ class JDPhotoBrowserCell: UICollectionViewCell,UIGestureRecognizerDelegate ,UISc
         }
     }
     
+
+    var lastImageId: Int32 = 0
+    
     var assert: PHAsset?{
         didSet{
-            self.getOrangeImage(asset: assert!) { (image) in
-                self.getImageSize(image: image!)
-                self.backImg.image = image
+                   
+            if assert != nil {
 
+                
+                self.getOrangeImage(asset: assert!) {[weak self] (data) in
+                    
+                    let img = UIImage(data: data!)
+                    if data != nil {
+                        self?.backImg.image = img
+//                        self?.isImageDone = true
+//                        self?.cellPhotoBrowserAnimator?.isImageDone = true
+                        
+                        self?.getImageSize(image: img!)
+                    }
+                }
+                
+                
             }
+          
             
         }
     }
@@ -47,12 +62,7 @@ class JDPhotoBrowserCell: UICollectionViewCell,UIGestureRecognizerDelegate ,UISc
     var imageUrl: String?{
         didSet{
             
-//            print("scrollView",self.scrollView.y)
-            if self.scrollView.x == 0 && self.scrollView.y == 0 {
-                self.scrollView.frame = baseImageRect
-                backImg.frame = CGRect(x: 0, y: 0, width: baseImageRect.size.width, height: baseImageRect.size.height)
-            }
-            
+
             self.cellPhotoBrowserAnimator?.isImageDone = false
             self.isImageDone = false
             
@@ -67,20 +77,24 @@ class JDPhotoBrowserCell: UICollectionViewCell,UIGestureRecognizerDelegate ,UISc
         }
     }
     
-    typealias ImgCallBackType = (UIImage?)->()
+    typealias ImgCallBackType = (Data?)->()
 
     //获取原图
     private func getOrangeImage(asset: PHAsset,callback: @escaping ImgCallBackType){
         //获取原图
-        PHImageManager.default().requestImage(for: asset,
-                                              targetSize: PHImageManagerMaximumSize , contentMode: .aspectFill,
-                                              options: nil, resultHandler: {
-                                                (image, _: [AnyHashable : Any]?) in
-                                                if image != nil{
-                                                    callback(image)
-                                                }
-                                                
+        
+        let option = PHImageRequestOptions()
+        option.isSynchronous = true
+        option.resizeMode = .exact
+        
+        lastImageId = PHImageManager.default().requestImageData(for: asset, options: option, resultHandler: { (data, string, up, nil) in
+            if data != nil{
+                callback(data)
+            }
+            
         })
+        
+
         
     }
 
@@ -95,23 +109,33 @@ class JDPhotoBrowserCell: UICollectionViewCell,UIGestureRecognizerDelegate ,UISc
         let imageH = imageSize.height
         let actualImageW = kJDScreenWidth 
         let actualImageH = actualImageW/imageW * imageH
+        
+       
          imageRect = CGRect(x: 0, y: (kJDScreenHeight - actualImageH)/2, width: actualImageW, height: actualImageH)
+        
+        if actualImageH > kJDScreenHeight {
+            imageRect = CGRect(x: 0, y: 0, width: kJDScreenWidth, height: kJDScreenHeight)
+        }
+        
+        backImg.frame = imageRect
+        
         
         self.scrollView.frame = imageRect
         self.scrollView.contentSize = CGSize(width: imageRect.size.width, height: imageRect.size.height)
         backImg.frame = CGRect(x: 0, y: 0, width: imageRect.size.width, height: imageRect.size.height)
+        
         backImg.layoutIfNeeded()
+        scrollView.layoutIfNeeded()
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = UIColor.black
         self.contentView.addSubview(scrollView)
-        scrollView.frame = CGRect(x: 0, y: 0, width: kJDScreenWidth, height: kJDScreenWidth)
-        backImg.frame = CGRect(x: 0, y: 0, width: kJDScreenWidth, height: kJDScreenWidth)
+        
         scrollView.addSubview(backImg)
+
         scrollView.delegate = self
-//        backImg.image = placeImage
         addGesture()
     }
     
@@ -142,6 +166,7 @@ class JDPhotoBrowserCell: UICollectionViewCell,UIGestureRecognizerDelegate ,UISc
         pan.delegate = self
         backImg.addGestureRecognizer(pan)
     }
+ 
     
     //拖拽
     @objc private func panDid(recognizer:UIPanGestureRecognizer) {
@@ -153,9 +178,22 @@ class JDPhotoBrowserCell: UICollectionViewCell,UIGestureRecognizerDelegate ,UISc
     
     //单击
     @objc private func backImgTap1(recognizer: UITapGestureRecognizer){
+
+
         let backImageVi = recognizer.view as! UIImageView
-        backImageVi.getCurrentVc()?.dismiss(animated: true, completion: nil)
-        UIApplication.shared.isStatusBarHidden = false
+        //返回不动画就行了 要不销毁了  还有其他手势
+        backImg.isUserInteractionEnabled = false
+       let fatherVc = backImageVi.getCurrentVc() as! JDPhotoBrowser
+        fatherVc.collectionView.isScrollEnabled = false
+        fatherVc.collectionView.isUserInteractionEnabled = false
+
+        //比消失动画长一点
+        let time: TimeInterval = 0.3
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + time) {
+            fatherVc.dismiss(animated: true, completion: nil)
+        }
+
+        
 
     }
     
@@ -213,7 +251,7 @@ class JDPhotoBrowserCell: UICollectionViewCell,UIGestureRecognizerDelegate ,UISc
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView){
-        self.scrollView.layoutIfNeeded()
+//        self.scrollView.layoutIfNeeded()
     }
     
     // 告诉scrollview要缩放的是哪个子控件
@@ -244,18 +282,24 @@ class JDPhotoBrowserCell: UICollectionViewCell,UIGestureRecognizerDelegate ,UISc
         var img = UIImageView()
         img.isUserInteractionEnabled = true
         img.contentMode = .scaleAspectFit
+        img.frame = CGRect(x: 0, y: 0, width: kJDScreenWidth , height: kJDScreenHeight )
         img.backgroundColor = UIColor.black
-        img.frame = baseImageRect
-        img.image = UIImage(named: "blackall")
+        
+//        img.image = UIImage(named: "blackall")
         return img
     }()
     lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.backgroundColor = UIColor.black
-        scrollView.maximumZoomScale=3;
-        scrollView.frame = baseImageRect
         scrollView.minimumZoomScale = 1;
+        scrollView.maximumZoomScale=3;
+        
+        scrollView.frame = CGRect(x: 0, y: 0, width: kJDScreenWidth, height: kJDScreenHeight)
+        scrollView.contentSize = CGSize(width: kJDScreenWidth, height: kJDScreenHeight)
+
+        scrollView.isUserInteractionEnabled = true
         scrollView.setZoomScale(1, animated: false)
+        scrollView.alwaysBounceHorizontal = true
         return scrollView
     }()
     

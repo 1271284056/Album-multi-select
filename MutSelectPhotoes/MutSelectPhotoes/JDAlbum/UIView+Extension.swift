@@ -159,8 +159,6 @@ extension UIView {
 
 }
 
-
-
 extension UIButton {
     
     enum btnType {

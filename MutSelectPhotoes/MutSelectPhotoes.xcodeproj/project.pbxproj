@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1501B8B71EC81FA800ADF6A2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1501B8B61EC81FA800ADF6A2 /* ViewController.swift */; };
+		1501B8B91EC8209000ADF6A2 /* DemoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1501B8B81EC8209000ADF6A2 /* DemoCollectionViewCell.swift */; };
 		150653E41EC15957003A5901 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150653E31EC15957003A5901 /* AppDelegate.swift */; };
 		150653EB1EC15957003A5901 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 150653EA1EC15957003A5901 /* Assets.xcassets */; };
 		150653EE1EC15957003A5901 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 150653EC1EC15957003A5901 /* LaunchScreen.storyboard */; };
@@ -18,10 +20,13 @@
 		150654041EC15BF3003A5901 /* JDPhotoBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150654011EC15BF3003A5901 /* JDPhotoBrowser.swift */; };
 		150654051EC15BF3003A5901 /* JDPhotoBrowserAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150654021EC15BF3003A5901 /* JDPhotoBrowserAnimator.swift */; };
 		150654061EC15BF3003A5901 /* JDPhotoBrowserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150654031EC15BF3003A5901 /* JDPhotoBrowserCell.swift */; };
+		1557CC4B1EC1C6C800F4C4E2 /* JDAlbumGroupCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1557CC4A1EC1C6C800F4C4E2 /* JDAlbumGroupCell.swift */; };
 		BD57C513142A68E358D99AF8 /* Pods_MutSelectPhotoes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C356B8F556DD5FEF8F1A34B /* Pods_MutSelectPhotoes.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1501B8B61EC81FA800ADF6A2 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		1501B8B81EC8209000ADF6A2 /* DemoCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoCollectionViewCell.swift; sourceTree = "<group>"; };
 		150653E01EC15957003A5901 /* MutSelectPhotoes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MutSelectPhotoes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		150653E31EC15957003A5901 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		150653EA1EC15957003A5901 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -35,6 +40,7 @@
 		150654011EC15BF3003A5901 /* JDPhotoBrowser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JDPhotoBrowser.swift; sourceTree = "<group>"; };
 		150654021EC15BF3003A5901 /* JDPhotoBrowserAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JDPhotoBrowserAnimator.swift; sourceTree = "<group>"; };
 		150654031EC15BF3003A5901 /* JDPhotoBrowserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JDPhotoBrowserCell.swift; sourceTree = "<group>"; };
+		1557CC4A1EC1C6C800F4C4E2 /* JDAlbumGroupCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JDAlbumGroupCell.swift; sourceTree = "<group>"; };
 		15599C767B30CD8546CF1302 /* Pods-MutSelectPhotoes.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MutSelectPhotoes.release.xcconfig"; path = "Pods/Target Support Files/Pods-MutSelectPhotoes/Pods-MutSelectPhotoes.release.xcconfig"; sourceTree = "<group>"; };
 		3BF7778EDBDBCAD1CF8F0D36 /* Pods-MutSelectPhotoes.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MutSelectPhotoes.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MutSelectPhotoes/Pods-MutSelectPhotoes.debug.xcconfig"; sourceTree = "<group>"; };
 		6C356B8F556DD5FEF8F1A34B /* Pods_MutSelectPhotoes.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MutSelectPhotoes.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -77,6 +83,8 @@
 				150653F61EC1598B003A5901 /* JDAlbum */,
 				150653E31EC15957003A5901 /* AppDelegate.swift */,
 				150653F51EC1598B003A5901 /* BaseViewController.swift */,
+				1501B8B61EC81FA800ADF6A2 /* ViewController.swift */,
+				1501B8B81EC8209000ADF6A2 /* DemoCollectionViewCell.swift */,
 				150653EA1EC15957003A5901 /* Assets.xcassets */,
 				150653EC1EC15957003A5901 /* LaunchScreen.storyboard */,
 				150653EF1EC15957003A5901 /* Info.plist */,
@@ -88,6 +96,7 @@
 			isa = PBXGroup;
 			children = (
 				150653F81EC1598B003A5901 /* JDAlbumGroupController.swift */,
+				1557CC4A1EC1C6C800F4C4E2 /* JDAlbumGroupCell.swift */,
 				150653F71EC1598B003A5901 /* JDAlbumDetailController.swift */,
 				150653F91EC1598B003A5901 /* JDCollectionViewCell.swift */,
 			);
@@ -157,6 +166,7 @@
 				TargetAttributes = {
 					150653DF1EC15957003A5901 = {
 						CreatedOnToolsVersion = 8.3;
+						DevelopmentTeam = RWG7JD4GFH;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -245,10 +255,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				150653FF1EC1598B003A5901 /* UIView+Extension.swift in Sources */,
+				1557CC4B1EC1C6C800F4C4E2 /* JDAlbumGroupCell.swift in Sources */,
 				150654061EC15BF3003A5901 /* JDPhotoBrowserCell.swift in Sources */,
 				150653FE1EC1598B003A5901 /* JDCollectionViewCell.swift in Sources */,
+				1501B8B71EC81FA800ADF6A2 /* ViewController.swift in Sources */,
 				150653FC1EC1598B003A5901 /* JDAlbumDetailController.swift in Sources */,
 				150654041EC15BF3003A5901 /* JDPhotoBrowser.swift in Sources */,
+				1501B8B91EC8209000ADF6A2 /* DemoCollectionViewCell.swift in Sources */,
 				150653E41EC15957003A5901 /* AppDelegate.swift in Sources */,
 				150653FB1EC1598B003A5901 /* BaseViewController.swift in Sources */,
 				150654051EC15BF3003A5901 /* JDPhotoBrowserAnimator.swift in Sources */,
@@ -370,6 +383,7 @@
 			baseConfigurationReference = 3BF7778EDBDBCAD1CF8F0D36 /* Pods-MutSelectPhotoes.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = RWG7JD4GFH;
 				INFOPLIST_FILE = MutSelectPhotoes/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "-8kuaipai.MutSelectPhotoes";
@@ -383,6 +397,7 @@
 			baseConfigurationReference = 15599C767B30CD8546CF1302 /* Pods-MutSelectPhotoes.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = RWG7JD4GFH;
 				INFOPLIST_FILE = MutSelectPhotoes/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "-8kuaipai.MutSelectPhotoes";

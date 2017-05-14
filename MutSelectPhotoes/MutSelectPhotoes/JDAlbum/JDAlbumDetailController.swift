@@ -13,7 +13,7 @@ class JDAlbumDetailController: UICollectionViewController {
     //选中的照片
     var selImageArrays: NSMutableArray = []
     
-    var bottomVi: UIView = UIView(frame: CGRect(x: kJDScreenWidth - 50, y: kJDScreenHeight - 50, width: 50, height: 50))
+    var bottomVi: UIView = UIView(frame: CGRect(x: kJDScreenWidth - 50, y: kJDScreenHeight - 50 - 64, width: 50, height: 50))
     
     ///取得的资源结果，用了存放的PHAsset
     var assetsFetchResults:PHFetchResult<PHAsset>!
@@ -25,18 +25,13 @@ class JDAlbumDetailController: UICollectionViewController {
     /// 带缓存的图片管理对象
     var imageManager:PHCachingImageManager!
     
-    let numBtn = UIButton(frame: CGRect(x: 10, y: 10, width: 30, height: 30))
+    let numBtn = UIButton(frame: CGRect(x: 5, y: 5, width: 40, height: 40))
     
     var selectImgsClosure2: (( _ assets: [PHAsset])->())?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        for i in 0..<assetsFetchResults.count{
-            let index = IndexPath(item: i, section: 0)
-            let asset = self.assetsFetchResults[index.row]
-            assertsArray.append(asset)
-        }
-        
+    
         self.collectionView?.register(JDCollectionViewCell.self, forCellWithReuseIdentifier: "JDCollectionViewCell")
         self.collectionView?.backgroundColor = UIColor.white
         //则获取所有资源
@@ -66,10 +61,16 @@ class JDAlbumDetailController: UICollectionViewController {
         numBtn.setTitle("0", for: .normal)
         numBtn.setTitleColor(UIColor.white, for: .normal)
         numBtn.setBackGroundColor(color: UIColor.colorWithHex(hexColor: 0x59be6f), type: .normal)
-        numBtn.titleLabel?.font = UIFont.systemFont(ofSize: 16)
-        numBtn.layer.cornerRadius = 15
+        numBtn.titleLabel?.font = UIFont.systemFont(ofSize: 20)
+        numBtn.layer.cornerRadius = 20
         numBtn.layer.masksToBounds = true
         numBtn.isUserInteractionEnabled = false
+        
+        for i in 0..<assetsFetchResults.count{
+            let asset = self.assetsFetchResults[i]
+            assertsArray.append(asset)
+        }
+        
 
     }
     
@@ -124,7 +125,7 @@ class JDAlbumDetailController: UICollectionViewController {
         let identify:String = "JDCollectionViewCell"
         
         let cell = (self.collectionView?.dequeueReusableCell(
-            withReuseIdentifier: identify, for: indexPath))! as! JDCollectionViewCell
+            withReuseIdentifier: identify, for: indexPath)) as! JDCollectionViewCell
         cell.indexPa = indexPath
         
         let anima = CABasicAnimation()
@@ -132,19 +133,23 @@ class JDAlbumDetailController: UICollectionViewController {
         anima.toValue = (1.3)
         anima.duration = 0.3
         
-        cell.selectImgClosure = { (index, type) in
+        cell.selectImgClosure = { [weak self] (index, type) in
+    
+//            print(str)
             if type == AddOrDelete.add {
-                self.selImageArrays.add(index)
-                self.numBtn.setTitle(String(self.selImageArrays.count), for: .normal)
-                
-                
-                self.numBtn.layer.add(anima, forKey: nil)
+                self?.selImageArrays.add(index)
+                let title = self?.selImageArrays.count
+                let str: String = String(describing: title!)
+                self?.numBtn.setTitle(str, for: .normal)
+                self?.numBtn.layer.add(anima, forKey: nil)
                 
 
             }else if type == AddOrDelete.delete{
-                self.selImageArrays.remove(index)
-                self.numBtn.setTitle(String(self.selImageArrays.count), for: .normal)
-                self.numBtn.layer.add(anima, forKey: nil)
+                self?.selImageArrays.remove(index)
+                let title = self?.selImageArrays.count
+                let str: String = String(describing: title!)
+                self?.numBtn.setTitle(str, for: .normal)
+                self?.numBtn.layer.add(anima, forKey: nil)
 
             }
         
@@ -163,7 +168,7 @@ class JDAlbumDetailController: UICollectionViewController {
         //获取缩略图
 //        print("缩略图-->",assetGridThumbnailSize)
         self.imageManager.requestImage(for: asset, targetSize: assetGridThumbnailSize, contentMode: PHImageContentMode.aspectFill,
-                                       options: nil) { (image, nfo) in
+                                       options: nil) { (image, info) in
                                         cell.img.image = image
                                         
         }
@@ -179,9 +184,13 @@ class JDAlbumDetailController: UICollectionViewController {
 //        let myAsset = self.assetsFetchResults[indexPath.row]
         
         let browser = JDPhotoBrowser(selectIndex: indexPath.row, asserts: self.assertsArray)
+        
+        if collectionView.cellForItem(at: indexPath) == nil {
+            return
+        }
         let cell = collectionView.cellForItem(at: indexPath) as! JDCollectionViewCell
+        
         browser.sourceImageView = cell.img
-//        browser.endImageView = nil
         self.present(browser, animated: true, completion: nil)
 
         browser.endPageIndexClosure = {[weak self] (index1: Int) in
@@ -189,12 +198,14 @@ class JDAlbumDetailController: UICollectionViewController {
             
             if  index1 <= ((self?.assertsArray.count ?? 0) - 1){
                 self?.collectionView?.scrollToItem(at: index, at: .centeredVertically, animated: true)
+                if collectionView.cellForItem(at: index) == nil {
+                    return}
+                let cell1 = collectionView.cellForItem(at: index) as! JDCollectionViewCell
+                browser.endImageView = cell1.img
             }
             
-            let cell1 = collectionView.cellForItem(at: index) as! JDCollectionViewCell
-            browser.endImageView = cell1.img
         }
-        
+//        
     
 
 

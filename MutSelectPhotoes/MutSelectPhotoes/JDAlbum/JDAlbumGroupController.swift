@@ -24,6 +24,8 @@ class AlbumItem {
 
 class JDAlbumGroupController: UIViewController ,UITableViewDelegate,UITableViewDataSource{
     
+    
+    
     private let kViewControllerId = "JDAlbumGroupControllerId"
     var selectImgsClosure1: (( _ assets: [PHAsset])->())?
 
@@ -35,8 +37,13 @@ class JDAlbumGroupController: UIViewController ,UITableViewDelegate,UITableViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.navigationBar.isTranslucent = false
+
+        if PHPhotoLibrary.authorizationStatus() == .notDetermined {
+            self.dismiss(animated: true, completion: nil)
+        }
         setTableView()
-        self.tableVi.register(UITableViewCell.self, forCellReuseIdentifier: kViewControllerId)
+        self.tableVi.register(JDAlbumGroupCell.self, forCellReuseIdentifier: kViewControllerId)
         
         // 列出所有系统的智能相册
         let smartOptions = PHFetchOptions()
@@ -105,21 +112,28 @@ class JDAlbumGroupController: UIViewController ,UITableViewDelegate,UITableViewD
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: kViewControllerId, for: indexPath as IndexPath) as UITableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: kViewControllerId, for: indexPath as IndexPath) as! JDAlbumGroupCell
         
         let item = self.items[indexPath.row]
         if item.title == "Camera Roll" {
             item.title = "我的相册"
         }else if (item.title == "Recently Added"){
             item.title = "最近添加"
+        }else if(item.title == "Recently Deleted"){
+            item.title = "最近删除"
         }
         
-        
-        cell.textLabel?.text = "\(item.title ?? "") (\(item.fetchResult.count))"
+        let first: PHAsset = item.fetchResult[0] as! PHAsset
+        self.getLitImage(asset: first) { (image) in
+            cell.headImage.image = image
+
+        }
+        cell.titleLb.text = "\(item.title ?? "") (\(item.fetchResult.count))"
         
         
         return cell
     }
+    
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
@@ -152,6 +166,22 @@ class JDAlbumGroupController: UIViewController ,UITableViewDelegate,UITableViewD
         }
         
         tableView.deselectRow(at: indexPath, animated: true)
+        
+    }
+    
+    typealias ImgCallBackType = (UIImage?)->()
+    
+    //获取缩略图
+    private func getLitImage(asset: PHAsset,callback: @escaping ImgCallBackType){
+        PHImageManager.default().requestImage(for: asset,
+                                              targetSize: CGSize(width: 100, height: 100) , contentMode: .aspectFill,
+                                              options: nil, resultHandler: {
+                                                (image, _: [AnyHashable : Any]?) in
+                                                if image != nil{
+                                                    callback(image)
+                                                }
+                                                
+        })
         
     }
     

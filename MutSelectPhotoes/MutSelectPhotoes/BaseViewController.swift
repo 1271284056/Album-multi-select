@@ -25,14 +25,13 @@ class BaseViewController: UIViewController {
     @objc private func photo(){
         
         let album = JDAlbumGroupController()
-        album.selectImgsClosure1 = { (assets: [PHAsset]) in
-            print(assets.count)
+        album.selectImgsClosure1 = { [weak self] (assets: [PHAsset]) in
             
             for index in 0..<assets.count {
                 let imgVi = UIImageView()
                 imgVi.jiuFrame(index: index, column: 3, viW: 100, viH: 100, topMargin: 10)
-                self.view.addSubview(imgVi)
-                self.getLitImage(asset: assets[index], callback: { (image) in
+                self?.view.addSubview(imgVi)
+                self?.getLitImage(asset: assets[index], callback: { (image) in
                     imgVi.image = image
 
                 })
