@@ -7,6 +7,9 @@
 import UIKit
 
 class JDPhotoBrowserAnimator: NSObject {
+    
+    var imageRect = CGRect(x: 0 , y:0, width: kJDScreenWidth  , height:  kJDScreenHeight )
+
     var isPresented : Bool = false
     var sourceImageView: UIImageView? // 来源view
     var endImageView: UIImageView? // 消失时候view
@@ -111,7 +114,7 @@ extension JDPhotoBrowserAnimator : UIViewControllerAnimatedTransitioning{
         self.preSnapView = snapView
         self.isAniDone = false
         UIView.animate(withDuration:0.2 , animations: {
-            snapView?.frame = imageRect
+            snapView?.frame = self.imageRect
             
         }, completion: { (_) in
             self.isAniDone = true
@@ -120,9 +123,7 @@ extension JDPhotoBrowserAnimator : UIViewControllerAnimatedTransitioning{
             let indexPath = IndexPath(item: self.currentPage, section: 0)
             guard  presentedVc.collectionView.cellForItem(at: indexPath) != nil else { return }
             let cell = presentedVc.collectionView.cellForItem(at: indexPath) as! JDPhotoBrowserCell
-            
-            //            cell.scrollView.frame = imageRect
-            //            cell.backImg.frame = CGRect(x: 0, y: 0, width: imageRect.size.width, height: imageRect.size.height)
+      
             
             self.isImageDone = cell.isImageDone
             
@@ -152,7 +153,6 @@ extension JDPhotoBrowserAnimator : UIViewControllerAnimatedTransitioning{
     //消失动画
     func animationForDismissView(_ transitionContext: UIViewControllerContextTransitioning){
      
-         print("消失动画开始")
         //上一级view
         let dismissView = transitionContext.view(forKey: UITransitionContextViewKey.from)!
         let dismissVc = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from) as! JDPhotoBrowser
@@ -178,7 +178,7 @@ extension JDPhotoBrowserAnimator : UIViewControllerAnimatedTransitioning{
         
         UIView.animate(withDuration: 0.2, animations: {
             if self.endImageView == nil{
-                snapView?.frame = imageRect
+                snapView?.frame = self.imageRect
             }else{
                 
                 var theFrame: CGRect = (self.endImageView?.convert((self.endImageView?.bounds)!, to: self.endImageView?.getCurrentVc()?.view))!
@@ -193,7 +193,6 @@ extension JDPhotoBrowserAnimator : UIViewControllerAnimatedTransitioning{
         }, completion: { (_) in
             snapView?.removeFromSuperview()
             transitionContext.completeTransition(true)
-            print("消失动画结束")
 
         })
         

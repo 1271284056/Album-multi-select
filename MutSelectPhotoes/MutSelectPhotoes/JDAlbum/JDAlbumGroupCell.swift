@@ -10,8 +10,8 @@ import UIKit
 
 class JDAlbumGroupCell: UITableViewCell {
 
-    var headImage: UIImageView = UIImageView(frame: CGRect(x: 5, y: 5, width: 40, height: 40)) //评级
-    var titleLb: UILabel = UILabel(frame: CGRect(x: 60, y: 0, width: 300, height: 50)) //车型
+    var headImage: UIImageView = UIImageView(frame: CGRect(x: 5, y: 5, width: 70, height: 70)) //评级
+    var titleLb: UILabel = UILabel(frame: CGRect(x: 100, y: 0, width: 300, height: 80)) //车型
 
     
     override func awakeFromNib() {
@@ -32,6 +32,9 @@ class JDAlbumGroupCell: UITableViewCell {
         titleLb.textColor = UIColor.black
         titleLb.textAlignment = .left
         self.contentView.addSubview(titleLb)
+        
+        headImage.contentMode = .scaleAspectFill
+        headImage.clipsToBounds = true
 
         
         self.contentView.addSubview(headImage)
@@ -47,6 +50,5 @@ class JDAlbumGroupCell: UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-//        bottomLine.frame = CGRect(x: 0, y: self.height-1, width: self.width, height: 1)
     }
 }

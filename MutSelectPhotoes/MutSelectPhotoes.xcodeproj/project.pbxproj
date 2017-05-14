@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1501B8B71EC81FA800ADF6A2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1501B8B61EC81FA800ADF6A2 /* ViewController.swift */; };
-		1501B8B91EC8209000ADF6A2 /* DemoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1501B8B81EC8209000ADF6A2 /* DemoCollectionViewCell.swift */; };
 		150653E41EC15957003A5901 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150653E31EC15957003A5901 /* AppDelegate.swift */; };
 		150653EB1EC15957003A5901 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 150653EA1EC15957003A5901 /* Assets.xcassets */; };
 		150653EE1EC15957003A5901 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 150653EC1EC15957003A5901 /* LaunchScreen.storyboard */; };
@@ -25,8 +23,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1501B8B61EC81FA800ADF6A2 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		1501B8B81EC8209000ADF6A2 /* DemoCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoCollectionViewCell.swift; sourceTree = "<group>"; };
 		150653E01EC15957003A5901 /* MutSelectPhotoes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MutSelectPhotoes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		150653E31EC15957003A5901 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		150653EA1EC15957003A5901 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -83,8 +79,6 @@
 				150653F61EC1598B003A5901 /* JDAlbum */,
 				150653E31EC15957003A5901 /* AppDelegate.swift */,
 				150653F51EC1598B003A5901 /* BaseViewController.swift */,
-				1501B8B61EC81FA800ADF6A2 /* ViewController.swift */,
-				1501B8B81EC8209000ADF6A2 /* DemoCollectionViewCell.swift */,
 				150653EA1EC15957003A5901 /* Assets.xcassets */,
 				150653EC1EC15957003A5901 /* LaunchScreen.storyboard */,
 				150653EF1EC15957003A5901 /* Info.plist */,
@@ -258,10 +252,8 @@
 				1557CC4B1EC1C6C800F4C4E2 /* JDAlbumGroupCell.swift in Sources */,
 				150654061EC15BF3003A5901 /* JDPhotoBrowserCell.swift in Sources */,
 				150653FE1EC1598B003A5901 /* JDCollectionViewCell.swift in Sources */,
-				1501B8B71EC81FA800ADF6A2 /* ViewController.swift in Sources */,
 				150653FC1EC1598B003A5901 /* JDAlbumDetailController.swift in Sources */,
 				150654041EC15BF3003A5901 /* JDPhotoBrowser.swift in Sources */,
-				1501B8B91EC8209000ADF6A2 /* DemoCollectionViewCell.swift in Sources */,
 				150653E41EC15957003A5901 /* AppDelegate.swift in Sources */,
 				150653FB1EC1598B003A5901 /* BaseViewController.swift in Sources */,
 				150654051EC15BF3003A5901 /* JDPhotoBrowserAnimator.swift in Sources */,

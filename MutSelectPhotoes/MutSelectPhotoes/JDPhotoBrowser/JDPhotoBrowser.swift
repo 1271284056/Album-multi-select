@@ -13,6 +13,9 @@ import Photos
 
 class JDPhotoBrowser: UIViewController {
     
+    var imageRectDict: [IndexPath: CGRect] = [IndexPath: CGRect]()
+
+    
     var isViewAppeared: Bool = false
     
     override func viewDidAppear(_ animated: Bool) {
@@ -54,6 +57,8 @@ class JDPhotoBrowser: UIViewController {
         }
     } // 消失时候imageview
     
+    
+    var lastPage: Int = 0
     ///静止后选中照片的索引
     var currentPage : Int?{
         didSet{
@@ -67,6 +72,8 @@ class JDPhotoBrowser: UIViewController {
                 guard let kcount  = asserts?.count else { return  }
                 indexLabel.text = "\((currentPage ?? 0) + 1)/\(kcount)"
             }
+
+            
         }
     }
     
@@ -94,7 +101,6 @@ class JDPhotoBrowser: UIViewController {
     init(selectIndex: Int, asserts: [PHAsset]) {
         super.init(nibName: nil, bundle: nil)
         self.currentPage = selectIndex
-//        print("selectIndex-->",selectIndex)
 
         self.asserts = asserts
         self.imageSourceTp = .asserts
@@ -239,11 +245,7 @@ extension JDPhotoBrowser :UICollectionViewDelegate,UICollectionViewDataSource{
        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: jdkresuId, for: indexPath as IndexPath) as! JDPhotoBrowserCell
         cell.scrollView.setZoomScale(1, animated: false)
-
-//        if cell.lastImageId != 0 {
-//            PHImageManager.default().cancelImageRequest(cell.lastImageId)
-//        }
-        
+    
         
         if self.imageSourceTp == .image {
             cell.image = self.images?[indexPath.item]
@@ -253,6 +255,7 @@ extension JDPhotoBrowser :UICollectionViewDelegate,UICollectionViewDataSource{
             cell.assert = self.asserts?[indexPath.item]
 
         }
+        
         
         cell.cellPhotoBrowserAnimator = photoBrowserAnimator
 
@@ -269,17 +272,15 @@ extension JDPhotoBrowser :UICollectionViewDelegate,UICollectionViewDataSource{
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         currentPage = Int(scrollView.contentOffset.x / scrollView.width)
+        lastPage = currentPage!
         photoBrowserAnimator.currentPage = currentPage ?? 0
         
-//        print(aaaa)
-        
+                
     }
 
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView){
         
-        //不是这里错误
-//        currentPage = Int(scrollView.contentOffset.x / scrollView.width)
-//        photoBrowserAnimator.currentPage = currentPage ?? 0
+
         if self.endPageIndexClosure != nil {
             endPageIndexClosure?(currentPage ?? 0)
         }
