@@ -61,7 +61,7 @@ extension JDPhotoBrowserAnimator : UIViewControllerTransitioningDelegate{
 extension JDPhotoBrowserAnimator : UIViewControllerAnimatedTransitioning{
     //动画时间
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
-        return 0.2
+        return 0.3
     }
     //动画方式
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
@@ -113,7 +113,7 @@ extension JDPhotoBrowserAnimator : UIViewControllerAnimatedTransitioning{
         
         self.preSnapView = snapView
         self.isAniDone = false
-        UIView.animate(withDuration:0.2 , animations: {
+        UIView.animate(withDuration:0.3 , animations: {
             snapView?.frame = self.imageRect
             
         }, completion: { (_) in
@@ -176,7 +176,7 @@ extension JDPhotoBrowserAnimator : UIViewControllerAnimatedTransitioning{
         transitionContext.containerView.addSubview(snapView!)
         dismissView.removeFromSuperview()
         
-        UIView.animate(withDuration: 0.2, animations: {
+        UIView.animate(withDuration: 0.3, animations: {
             if self.endImageView == nil{
                 snapView?.frame = self.imageRect
             }else{
