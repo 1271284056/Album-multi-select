@@ -152,7 +152,7 @@ extension JDPhotoBrowserAnimator : UIViewControllerAnimatedTransitioning{
     //消失动画
     func animationForDismissView(_ transitionContext: UIViewControllerContextTransitioning){
      
-   
+         print("消失动画开始")
         //上一级view
         let dismissView = transitionContext.view(forKey: UITransitionContextViewKey.from)!
         let dismissVc = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from) as! JDPhotoBrowser
@@ -161,6 +161,9 @@ extension JDPhotoBrowserAnimator : UIViewControllerAnimatedTransitioning{
         let indexPath = IndexPath(item: currentPage, section: 0)
         
         if dismissVc.collectionView.cellForItem(at: indexPath) == nil {
+            //currentPage快速滑动一直不变 最后销毁了
+            transitionContext.completeTransition(true)
+
             return
         }
         
@@ -190,6 +193,8 @@ extension JDPhotoBrowserAnimator : UIViewControllerAnimatedTransitioning{
         }, completion: { (_) in
             snapView?.removeFromSuperview()
             transitionContext.completeTransition(true)
+            print("消失动画结束")
+
         })
         
     }

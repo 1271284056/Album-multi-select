@@ -117,11 +117,15 @@ class JDPhotoBrowserCell: UICollectionViewCell,UIGestureRecognizerDelegate ,UISc
             imageRect = CGRect(x: 0, y: 0, width: kJDScreenWidth, height: kJDScreenHeight)
         }
         
-        backImg.frame = imageRect
         
         
-        self.scrollView.frame = imageRect
+//        self.scrollView.frame = imageRect
+        
+        
         self.scrollView.contentSize = CGSize(width: imageRect.size.width, height: imageRect.size.height)
+        
+        self.scrollView.contentInset = UIEdgeInsets(top: imageRect.origin.y, left: 0, bottom: 0, right: 0)
+        
         backImg.frame = CGRect(x: 0, y: 0, width: imageRect.size.width, height: imageRect.size.height)
         
         backImg.layoutIfNeeded()
@@ -179,21 +183,9 @@ class JDPhotoBrowserCell: UICollectionViewCell,UIGestureRecognizerDelegate ,UISc
     //单击
     @objc private func backImgTap1(recognizer: UITapGestureRecognizer){
 
-
         let backImageVi = recognizer.view as! UIImageView
-        //返回不动画就行了 要不销毁了  还有其他手势
-        backImg.isUserInteractionEnabled = false
-       let fatherVc = backImageVi.getCurrentVc() as! JDPhotoBrowser
-        fatherVc.collectionView.isScrollEnabled = false
-        fatherVc.collectionView.isUserInteractionEnabled = false
-
-        //比消失动画长一点
-        let time: TimeInterval = 0.3
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + time) {
-            fatherVc.dismiss(animated: true, completion: nil)
-        }
-
-        
+        let fatherVc = backImageVi.getCurrentVc() as! JDPhotoBrowser
+        fatherVc.dismiss(animated: true, completion: nil)
 
     }
     
@@ -203,13 +195,25 @@ class JDPhotoBrowserCell: UICollectionViewCell,UIGestureRecognizerDelegate ,UISc
         let touchPoint = recognizer.location(in: backImageVi)
 
         UIView.animate(withDuration: 0.25) {
-        if backImageVi.width > imageRect.width{
+        if backImageVi.width > imageRect.width{//缩小
             let zoomRect = self.zoomRectFor(scale: 1, center: touchPoint)
             self.scrollView.zoom(to:zoomRect, animated: true)
+
+            
+//            self.scrollView.setZoomScale(1, animated: true)
+            self.scrollView.contentInset = UIEdgeInsets(top: imageRect.origin.y, left: 0, bottom: 0, right: 0)
+
+
             self.scrollView.layoutIfNeeded()
         }else{
             let zoomRect = self.zoomRectFor(scale: 2, center: touchPoint)
             self.scrollView.zoom(to:zoomRect, animated: true)
+//
+            
+//            self.scrollView.setZoomScale(2, animated: true)
+
+            self.scrollView.contentInset = UIEdgeInsets(top: imageRect.origin.y/2.0, left: 0, bottom: 0, right: 0)
+
             self.scrollView.layoutIfNeeded()
         }
         }
@@ -228,6 +232,10 @@ class JDPhotoBrowserCell: UICollectionViewCell,UIGestureRecognizerDelegate ,UISc
             return
         }
         self.scrollView.setZoomScale(totalScale, animated: true)
+        
+        self.scrollView.contentInset = UIEdgeInsets(top: imageRect.origin.y/totalScale, left: 0, bottom: 0, right: 0)
+
+        
         self.scrollView.layoutIfNeeded()
     }
     
@@ -251,8 +259,8 @@ class JDPhotoBrowserCell: UICollectionViewCell,UIGestureRecognizerDelegate ,UISc
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView){
-//        self.scrollView.layoutIfNeeded()
     }
+    
     
     // 告诉scrollview要缩放的是哪个子控件
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
@@ -270,11 +278,11 @@ class JDPhotoBrowserCell: UICollectionViewCell,UIGestureRecognizerDelegate ,UISc
     
     //让图片居中
     func scrollViewDidZoom(_ scrollView: UIScrollView) {
-        let offsetX = (scrollView.bounds.size.width > scrollView.contentSize.width) ?
-            (scrollView.bounds.size.width - scrollView.contentSize.width) * 0.5 : 0.0
-        let offsetY = (scrollView.bounds.size.height > scrollView.contentSize.height) ?
-            (scrollView.bounds.size.height - scrollView.contentSize.height) * 0.5 : 0.0
-        self.backImg.center = CGPoint(x: scrollView.contentSize.width * 0.5 + offsetX, y: scrollView.contentSize.height * 0.5 + offsetY)
+//        let offsetX = (scrollView.bounds.size.width > scrollView.contentSize.width) ?
+//            (scrollView.bounds.size.width - scrollView.contentSize.width) * 0.5 : 0.0
+//        let offsetY = (scrollView.bounds.size.height > scrollView.contentSize.height) ?
+//            (scrollView.bounds.size.height - scrollView.contentSize.height) * 0.5 : 0.0
+//        self.backImg.center = CGPoint(x: scrollView.contentSize.width * 0.5 + offsetX, y: scrollView.contentSize.height * 0.5 + offsetY)
     }
     
     // ------懒加载------

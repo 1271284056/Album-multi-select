@@ -67,7 +67,6 @@ extension ViewController :UICollectionViewDelegate,UICollectionViewDataSource{
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: resuID, for: indexPath as IndexPath) as! DemoCollectionViewCell
         
         
-        
         return cell
     }
     

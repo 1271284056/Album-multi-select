@@ -268,13 +268,18 @@ extension JDPhotoBrowser :UICollectionViewDelegate,UICollectionViewDataSource{
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        currentPage = Int(scrollView.contentOffset.x / scrollView.width)
+        photoBrowserAnimator.currentPage = currentPage ?? 0
+        
+//        print(aaaa)
+        
     }
 
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView){
         
         //不是这里错误
-        currentPage = Int(scrollView.contentOffset.x / scrollView.width)
-        photoBrowserAnimator.currentPage = currentPage ?? 0
+//        currentPage = Int(scrollView.contentOffset.x / scrollView.width)
+//        photoBrowserAnimator.currentPage = currentPage ?? 0
         if self.endPageIndexClosure != nil {
             endPageIndexClosure?(currentPage ?? 0)
         }
