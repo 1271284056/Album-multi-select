@@ -23,17 +23,13 @@ class AlbumItem {
 }
 
 class JDAlbumGroupController: UIViewController ,UITableViewDelegate,UITableViewDataSource{
-    
-    
-    
+        
     private let kViewControllerId = "JDAlbumGroupControllerId"
     var selectImgsClosure1: (( _ assets: [PHAsset])->())?
 
     //相簿列表项集合
     var items:[AlbumItem] = [AlbumItem]()
-    
     let tableVi = UITableView(frame: CGRect(x: 0, y: 0, width: kJDScreenWidth, height: kJDScreenHeight))
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,9 +64,7 @@ class JDAlbumGroupController: UIViewController ,UITableViewDelegate,UITableViewD
         tableVi.dataSource = self
         
         self.navigationItem.title = "相册"
-        
         let rightItem = UIBarButtonItem(title: "取消", style: .plain, target:self, action: #selector(cancle))
-        
         self.navigationItem.rightBarButtonItem = rightItem
     }
     
@@ -126,11 +120,8 @@ class JDAlbumGroupController: UIViewController ,UITableViewDelegate,UITableViewD
         let first: PHAsset = item.fetchResult[0] as! PHAsset
         self.getLitImage(asset: first) { (image) in
             cell.headImage.image = image
-
         }
         cell.titleLb.text = "\(item.title ?? "") (\(item.fetchResult.count))"
-        
-        
         return cell
     }
     
@@ -139,8 +130,6 @@ class JDAlbumGroupController: UIViewController ,UITableViewDelegate,UITableViewD
         
         //获取选中的相簿信息
         let item = self.items[indexPath.row]
-        //设置标题
-        
         let layout = UICollectionViewFlowLayout()
         let lieshu: CGFloat = 4
         let margin: CGFloat = 3
@@ -150,13 +139,11 @@ class JDAlbumGroupController: UIViewController ,UITableViewDelegate,UITableViewD
         layout.scrollDirection = .vertical;
         
         let collectionViewController = JDAlbumDetailController(collectionViewLayout: layout)
-        
         collectionViewController.selectImgsClosure2 = { (assets: [PHAsset]) in
             if self.selectImgsClosure1 != nil {
                 self.selectImgsClosure1?(assets)
             }
         }
-        
         
         collectionViewController.title = item.title
         //传递相簿内的图片资源
@@ -166,11 +153,9 @@ class JDAlbumGroupController: UIViewController ,UITableViewDelegate,UITableViewD
         }
         
         tableView.deselectRow(at: indexPath, animated: true)
-        
     }
     
     typealias ImgCallBackType = (UIImage?)->()
-    
     //获取缩略图
     private func getLitImage(asset: PHAsset,callback: @escaping ImgCallBackType){
         PHImageManager.default().requestImage(for: asset,

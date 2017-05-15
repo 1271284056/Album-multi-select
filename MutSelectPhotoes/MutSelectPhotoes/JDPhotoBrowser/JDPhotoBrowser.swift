@@ -14,8 +14,6 @@ import Photos
 class JDPhotoBrowser: UIViewController {
     
     var imageRectDict: [IndexPath: CGRect] = [IndexPath: CGRect]()
-
-    
     var isViewAppeared: Bool = false
     
     override func viewDidAppear(_ animated: Bool) {
@@ -33,6 +31,7 @@ class JDPhotoBrowser: UIViewController {
         case url
         case asserts
     }
+    
     ///图片的url字符串数组
     var urls:[String]?
     var images: [UIImage]?
@@ -51,6 +50,7 @@ class JDPhotoBrowser: UIViewController {
             photoBrowserAnimator.superVc = self
         }
     } // 来源view
+    
     var endImageView: UIImageView?{
         didSet{
             photoBrowserAnimator.endImageView = endImageView
@@ -58,7 +58,6 @@ class JDPhotoBrowser: UIViewController {
     } // 消失时候imageview
     
     
-    var lastPage: Int = 0
     ///静止后选中照片的索引
     var currentPage : Int?{
         didSet{
@@ -101,7 +100,6 @@ class JDPhotoBrowser: UIViewController {
     init(selectIndex: Int, asserts: [PHAsset]) {
         super.init(nibName: nil, bundle: nil)
         self.currentPage = selectIndex
-
         self.asserts = asserts
         self.imageSourceTp = .asserts
         self.modalPresentationStyle = .custom
@@ -139,7 +137,6 @@ class JDPhotoBrowser: UIViewController {
 
         DispatchQueue.main.async {
             if indexPath.row <= ((self.images?.count ?? 0) - 1) || indexPath.row <= ((self.urls?.count ?? 0) - 1) || indexPath.row <= ((self.asserts?.count ?? 0) - 1){
-            
             self.collectionView.scrollToItem(at: indexPath, at: .left, animated: false)
             }
         }
@@ -245,7 +242,6 @@ extension JDPhotoBrowser :UICollectionViewDelegate,UICollectionViewDataSource{
        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: jdkresuId, for: indexPath as IndexPath) as! JDPhotoBrowserCell
         cell.scrollView.setZoomScale(1, animated: false)
-    
         
         if self.imageSourceTp == .image {
             cell.image = self.images?[indexPath.item]
@@ -253,34 +249,27 @@ extension JDPhotoBrowser :UICollectionViewDelegate,UICollectionViewDataSource{
             cell.imageUrl = self.urls?[indexPath.item]
         }else if self.imageSourceTp == .asserts{
             cell.assert = self.asserts?[indexPath.item]
-
         }
         
-        
+        cell.dismissClosure = {[weak self] () in
+            if self?.endPageIndexClosure != nil {
+                self?.endPageIndexClosure?(self?.currentPage ?? 0)
+            }
+        }
         cell.cellPhotoBrowserAnimator = photoBrowserAnimator
-
         return cell
     }
 
-    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.dismiss(animated: true, completion: nil)
     }
     
-    func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
-    }
-    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         currentPage = Int(scrollView.contentOffset.x / scrollView.width)
-        lastPage = currentPage!
         photoBrowserAnimator.currentPage = currentPage ?? 0
-        
-                
     }
 
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView){
-        
-
         if self.endPageIndexClosure != nil {
             endPageIndexClosure?(currentPage ?? 0)
         }

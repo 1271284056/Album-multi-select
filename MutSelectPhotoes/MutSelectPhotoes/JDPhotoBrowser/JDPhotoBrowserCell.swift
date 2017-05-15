@@ -16,6 +16,7 @@ class JDPhotoBrowserCell: UICollectionViewCell,UIGestureRecognizerDelegate ,UISc
     
     var imageRect = CGRect(x: 0 , y:0, width: kJDScreenWidth  , height:  kJDScreenHeight )
 
+    var dismissClosure: (( )->())?
 
     var isDissmiss: Bool = false
     var totalScale : CGFloat = 1.0
@@ -181,6 +182,11 @@ class JDPhotoBrowserCell: UICollectionViewCell,UIGestureRecognizerDelegate ,UISc
     
     //单击
     @objc private func backImgTap1(recognizer: UITapGestureRecognizer){
+        
+        if self.dismissClosure != nil {
+            self.dismissClosure?()
+        }
+        
         let fatherVc = self.backImg.getCurrentVc() as! JDPhotoBrowser
         fatherVc.dismiss(animated: true, completion: nil)
     }
@@ -190,32 +196,24 @@ class JDPhotoBrowserCell: UICollectionViewCell,UIGestureRecognizerDelegate ,UISc
         let backImageVi = self.backImg
         let touchPoint = recognizer.location(in: backImageVi)
 
-        
         UIView.animate(withDuration: 0.25) {
         if backImageVi.width > self.imageRect.width{//缩小
             self.scrollView.contentInset = UIEdgeInsets(top: self.imageRect.origin.y, left: 0, bottom: 0, right: 0)
-
-            
             let zoomRect = self.zoomRectFor(scale: 1, center: touchPoint)
             self.scrollView.zoom(to:zoomRect, animated: true)
-
             self.scrollView.layoutIfNeeded()
         }else{//放大
            let bili = kJDScreenHeight/self.imageRect.height
-//            print("bili",bili)
+
             if bili > 2{
-            let zoomRect = self.zoomRectFor(scale: bili, center: touchPoint)
-            self.scrollView.zoom(to:zoomRect, animated: true)
-                
+               let zoomRect = self.zoomRectFor(scale: bili, center: touchPoint)
+               self.scrollView.zoom(to:zoomRect, animated: true)
             }else{
                 let  zoomRect1 = self.zoomRectFor(scale: 2, center: touchPoint)
                 self.scrollView.zoom(to:zoomRect1, animated: true)
-
             }
             
             self.scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-
-
             self.scrollView.layoutIfNeeded()
         }
         }
@@ -237,7 +235,6 @@ class JDPhotoBrowserCell: UICollectionViewCell,UIGestureRecognizerDelegate ,UISc
         }
 
         self.scrollView.setZoomScale(totalScale, animated: true)
-
         self.scrollView.layoutIfNeeded()
     }
     

@@ -13,16 +13,12 @@ enum AddOrDelete {
     case delete
 }
 
-
 class JDCollectionViewCell: UICollectionViewCell {
     
     var addType: AddOrDelete = .add //增加或者删除
-    
     var indexPa: IndexPath?
     var selBtn: UIButton = UIButton()
-    
     var selectImgClosure: (( _ indexPath: IndexPath,_ type: AddOrDelete)->())?
-
     let img = UIImageView()
 
     override init(frame: CGRect) {
@@ -30,12 +26,10 @@ class JDCollectionViewCell: UICollectionViewCell {
         img.contentMode = .scaleAspectFill
         img.layer.masksToBounds = true
         self.contentView.addSubview(img)
-        
         self.contentView.addSubview(selBtn)
         selBtn.addTarget(self, action: #selector(btnClick(btn:)), for: .touchUpInside)
         selBtn.setImage(UIImage(named: "1"), for: .normal)
         selBtn.setImage(UIImage(named: "2"), for: .selected)
-        
     }
     
     @objc private func btnClick(btn: UIButton){
@@ -49,7 +43,6 @@ class JDCollectionViewCell: UICollectionViewCell {
         }else{ //原来没选中
             btn.isSelected = true
             self.addType = .add
-            
             //小动画
             let anima = CABasicAnimation()
             anima.keyPath = "transform.scale";
@@ -61,10 +54,7 @@ class JDCollectionViewCell: UICollectionViewCell {
                 self.selectImgClosure?(indexPa!,addType)
             }
         }
-        
     }
-    
-    
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
