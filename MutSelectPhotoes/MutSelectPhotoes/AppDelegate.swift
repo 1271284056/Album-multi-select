@@ -13,13 +13,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
     
-    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.backgroundColor = UIColor.white
-        
-        let vc = UIViewController()
-        vc.view.backgroundColor = UIColor.black
         
         let tab = BaseViewController()
         let nav = UINavigationController(rootViewController:tab )

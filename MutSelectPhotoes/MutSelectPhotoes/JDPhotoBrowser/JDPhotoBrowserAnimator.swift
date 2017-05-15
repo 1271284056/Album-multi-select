@@ -19,7 +19,6 @@ class JDPhotoBrowserAnimator: NSObject {
     
     var superVc: JDPhotoBrowser?
     
-    
     //加载进度提示框
     private lazy var progressView : UIActivityIndicatorView = {
         let loadVi = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)

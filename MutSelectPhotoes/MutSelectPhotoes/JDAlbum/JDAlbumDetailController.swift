@@ -162,13 +162,19 @@ class JDAlbumDetailController: UICollectionViewController {
         browser.endPageIndexClosure = {[weak self] (index1: Int) in
             let index = IndexPath(item: index1, section: 0)
             if  index1 <= ((self?.assertsArray.count ?? 0) - 1){
-                self?.collectionView?.scrollToItem(at: index, at: .centeredVertically, animated: true)
+                
                 if collectionView.cellForItem(at: index) == nil {
-                    return}
-                let cell1 = collectionView.cellForItem(at: index) as! JDCollectionViewCell
-                browser.endImageView = cell1.img
+                    self?.collectionView?.scrollToItem(at: index, at: .centeredVertically, animated: true)
+                }else{
+                    let cell1 = collectionView.cellForItem(at: index) as! JDCollectionViewCell
+                    browser.endImageView = cell1.img
+                }
+                
+               
             }
         }
+        
+        
     }
     
     override func didReceiveMemoryWarning() {
