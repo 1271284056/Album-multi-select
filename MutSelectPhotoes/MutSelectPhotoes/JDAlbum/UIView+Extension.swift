@@ -92,8 +92,6 @@ extension UIView {
         } set {
             frame.size.height = newValue
         }
-        
-        
     }
     
     //  中心x
@@ -176,21 +174,18 @@ extension UIButton {
         self.setTitleColor(textColor, for: .normal)
     }
     
-    
     func setBackGroundColor(color: UIColor,type: btnType){
-        
         let rect = CGRect(x: 0, y: 0, width: self.width, height: self.height)
         UIGraphicsBeginImageContext(rect.size)
-        //        print(rect)
         if rect.width<=0 || rect.height<=0 {
             return
         }
+        
         let  context: CGContext = (UIGraphicsGetCurrentContext())!
         context.setFillColor(color.cgColor)
         context.fill(rect)
         let img = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        
         
         if type == .normal{
             self.setBackgroundImage(img, for: .normal)
@@ -199,8 +194,6 @@ extension UIButton {
             
         }else if type == .highlighted{
             self.setBackgroundImage(img, for: .highlighted)
-            
-            
         }
         
     }
